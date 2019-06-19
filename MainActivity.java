@@ -49,28 +49,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Mat img = Imgcodecs.imread("C:\\book\\opencv\\luba1.jpg");
-                if (img.empty()) {
-                    System.out.println("Не удалось загрузить изображение");
-                    return;
-                }
-                CascadeClassifier object_detector = new CascadeClassifier();
-                String path = "path.xml";
-                if (!object_detector.load(path)) {
-                    System.out.println("Не удалось загрузить классификатор " + path);
-                    return;
-                }
-
-                MatOfRect mashrooms = new MatOfRect();
-                mashrooms.detectMultiScale(img, mashrooms);
-                for (Rect r : mashrooms.toList()) {
-                    Imgproc.rectangle(img, new Point(r.x, r.y),
-                            new Point(r.x + r.width, r.y + r.height),
-                            CvUtils.COLOR_WHITE, 2);
-                }
-                CvUtilsFX.showImage(img, "Результат");
-                img.release();
-
+                //Вызываем стандартную галерею для выбора изображения с помощью Intent.ACTION_PICK:
+ 		        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+ 		        //Тип получаемых объектов - image:
+ 		        photoPickerIntent.setType("image/*");
+ 		        //Запускаем переход с ожиданием обратного результата в виде информации об изображении:
+ 		        startActivityForResult(photoPickerIntent, Pick_image);
 
             }
 
@@ -82,7 +66,26 @@ public class MainActivity extends AppCompatActivity {
         {
             @Overridepublic void onClick (View view)
             {
-
+                Mat img = Imgcodecs.imread("C:\\book\\opencv\\luba1.jpg");
+                if (img.empty()) {
+                    System.out.println("Не удалось загрузить изображение");
+                    return;
+                }
+                CascadeClassifier object_detector = new CascadeClassifier();
+                String path = "path.xml";
+                if (!object_detector.load(path)) {
+                    System.out.println("Не удалось загрузить классификатор " + path);
+                    return;
+                }
+                MatOfRect mashrooms = new MatOfRect();
+                mashrooms.detectMultiScale(img, mashrooms);
+                for (Rect r : mashrooms.toList()) {
+                    Imgproc.rectangle(img, new Point(r.x, r.y),
+                            new Point(r.x + r.width, r.y + r.height),
+                            CvUtils.COLOR_WHITE, 2);
+                }
+                CvUtilsFX.showImage(img, "Результат");
+                img.release();
             }
         });
 
