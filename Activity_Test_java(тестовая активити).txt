@@ -1,0 +1,166 @@
+package git.hab.myapplication;
+
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.RadioButton;
+import java.util.Arrays;
+
+public class Activity_Test extends AppCompatActivity {
+
+    private int i = 0;
+    private boolean gr = false;
+    private String[] cr1;
+    private String[] cr2;
+    private String[][] myArray = {
+            {"Какого цвета шлябка?", "красный(оранжевый)", "белый", "коричневый"},
+            {"На шлябке есть рисунок?", "да, белые бородавки", "да, волокна", "нет"},
+            {"Есть ли на верхней части ножки кольцо?", "да", "нет", "не знаю"},
+            {"Какой низ шлябки?", "губчатый", "трубчатый", "не знаю"},
+            {"Есть ли неприятный запох у грибов?", "да", "нет", "не могу определить"}
+    };
+
+     private String[][] muhomor = {
+             {"1","1","1","2","1"},
+             {"1","1","3","2","1"},
+             {"1","1","1","3","1"},
+             {"1","1","3","3","1"},
+             {"1","1","1","2","3"},
+             {"1","1","3","2","3"},
+             {"1","1","1","3","3"},
+             {"1","1","3","3","3"},
+     };
+
+    private String[][] white = {
+            {"3","3","2","1","2"},
+            {"3","3","2","3","3"},
+            {"3","3","2","1","3"},
+            {"3","3","2","3","2"},
+
+    };
+
+    private String[][] rijik = {
+            {"1","3","2","2","1"},
+            {"1","3","2","3","3"},
+            {"1","3","2","2","3"},
+            {"1","3","2","3","1"},
+
+    };
+
+    private TextView mInfoTextView;
+    private RadioButton oneRadioButton;
+    private RadioButton twoRadioButton;
+    private RadioButton threeRadioButton;
+    private ImageView newimageView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity__test);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        Button helloBtn = (Button) findViewById(R.id.button3);
+
+        helloBtn.setOnClickListener(onClickListener1);
+
+        mInfoTextView = (TextView)findViewById(R.id.textView2);
+
+        RadioButton oneRadioButton = (RadioButton)findViewById(R.id.radioOne);
+        RadioButton twoRadioButton = (RadioButton)findViewById(R.id.radioTwo);
+        RadioButton threeRadioButton = (RadioButton)findViewById(R.id.radioThree);
+
+        oneRadioButton.setOnClickListener(radioButtonClickListener);
+        twoRadioButton.setOnClickListener(radioButtonClickListener);
+        threeRadioButton.setOnClickListener(radioButtonClickListener);
+
+        ImageView newimageView = (ImageView) findViewById(R.id.imageView);
+    }
+
+    View.OnClickListener radioButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RadioButton rb = (RadioButton)v;
+            switch (rb.getId()) {
+                case R.id.radioOne: myArray[i][4]= "1";
+                    break;
+                case R.id.radioTwo: myArray[i][4]= "2";
+                    break;
+                case R.id.radioThree: myArray[i][4]= "3";
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    View.OnClickListener onClickListener1 = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mInfoTextView.setText(myArray[i][0]);
+            oneRadioButton.setText(myArray[i][1]);
+            twoRadioButton.setText(myArray[i][2]);
+            threeRadioButton.setText(myArray[i][3]);
+            i++;
+            if (i == 5)
+            {
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                params.topMargin = 100; // типа координаты в контейнере по Y
+                params.leftMargin = 70; // и X
+                newimageView.setLayoutParams(params);
+
+                for (int y=0; y<8; y++) {
+                    if (!gr)
+                        for (int w = 0; w < 5; w++) {
+                            cr1[w] = myArray[w][4];
+                            cr2[w] = muhomor[y][w];
+                        }
+                    if (Arrays.equals(cr1, cr2)) {
+                        newimageView.setImageResource(R.drawable.muhomor);
+                        gr = true;
+                    }
+                }
+
+                for (int y=0; y<4; y++) {
+                    if (!gr)
+                        for (int w = 0; w < 5; w++) {
+                            cr1[w] = myArray[w][4];
+                            cr2[w] = white[y][w];
+                        }
+                    if (Arrays.equals(cr1, cr2)) {
+                        newimageView.setImageResource(R.drawable.white);
+                        gr = true;
+                    }
+                }
+
+                for (int y=0; y<4; y++) {
+                    if (!gr)
+                        for (int w = 0; w < 5; w++) {
+                            cr1[w] = myArray[w][4];
+                            cr2[w] = rijik[y][w];
+                        }
+                    if (Arrays.equals(cr1, cr2)) {
+                        newimageView.setImageResource(R.drawable.rijik);
+                        gr = true;
+                    }
+                }
+            }
+        }
+    };
+}
